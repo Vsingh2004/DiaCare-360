@@ -1,0 +1,17 @@
+[
+    {
+      "id": 1,
+      "name": "Accu-Chek Active Glucometer",
+      "price": "₹1,299",
+      "image": "https://cdn.example.com/accu-chek.jpg",
+      "link": "/product/accu-chek"
+    },
+    {
+      "id": 2,
+      "name": "Dr. Morepen BP Monitor",
+      "price": "₹999",
+      "image": "https://cdn.example.com/bp-monitor.jpg",
+      "link": "/product/bp-monitor"
+    }
+  ]
+  
