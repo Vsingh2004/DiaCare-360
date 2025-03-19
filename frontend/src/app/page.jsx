@@ -7,7 +7,6 @@ import SwiperText from '@/components/SwiperText';
 import ProductList from '@/components/ProductList';
 import SmartMealPlanner from '@/components/SmartMealPlanner';
 import FactSection from '@/components/FactSection';
-import Footer from '@/components/Footer';
 
 
 const Home = () => {
@@ -21,7 +20,6 @@ const Home = () => {
 <SwiperText/>
 <SmartMealPlanner/>
 <FactSection/>
-<Footer/>
   </div>
   )
 }

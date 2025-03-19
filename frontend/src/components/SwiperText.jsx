@@ -15,7 +15,7 @@ const tips = [
 
 const SwiperText = () => {
   return (
-    <div className="bg-[#25BF76] rounded-xl shadow-md  mx-auto my-10 mt-15 ">
+    <div className="bg-[#25BF76] border-2 border-[#25BF76] shadow-md  mx-auto my-10 mt-15 ">
 
     <Swiper
       modules={[Pagination, Autoplay]}
@@ -23,11 +23,11 @@ const SwiperText = () => {
       slidesPerView={1}
       autoplay={{ delay: 3000 }}
       pagination={{ clickable: true }}
-      className="rounded-lg"
+      className=""
     >
       {tips.map((tip, index) => (
         <SwiperSlide key={index}>
-          <div className="bg-white p-5 w-full rounded-lg shadow-sm text-center">
+          <div className="bg-white p-5 w-full shadow-sm text-center">
             <p className="text-lg text-gray-700">{tip}</p>
           </div>
         </SwiperSlide>

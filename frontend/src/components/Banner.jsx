@@ -2,7 +2,7 @@ import React from 'react'
 
 const Banner = () => {
   return (
-    <div className="bg-[#25BF76]  flex gap-20   lg:flex-row md:flex-col w-full items-center justify-center">
+    <div className="bg-[#25BF76]  flex gap-20 mt-10  lg:flex-row md:flex-col w-full items-center justify-center">
       <button className=" inline-flex py-3 px-5 w-1/4 rounded-lg items-center focus:outline-none">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -17,7 +17,7 @@ const Banner = () => {
           <span className="title-font "> Buy Recommended foods within our platform</span>
         </span>
       </button>
-      <button className=" inline-flex py-3 px-5 w-1/4 rounded-lg items-center lg:ml-4 md:ml-0 ml-4 md:mt-4 mt-0 lg:mt-0 hover:bg-gray-200 focus:outline-none">
+      <button className=" inline-flex py-3 px-5 w-1/4 rounded-lg items-center lg:ml-4 md:ml-0 ml-4 md:mt-4 mt-0 lg:mt-0  focus:outline-none">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"
@@ -33,7 +33,7 @@ const Banner = () => {
         </span>
       </button>
 
-      <button className=" inline-flex py-3 px-5 w-1/4 rounded-lg items-center hover:bg-gray-200 focus:outline-none">
+      <button className=" inline-flex py-3 px-5 w-1/4 rounded-lg items-center  focus:outline-none">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="currentColor"

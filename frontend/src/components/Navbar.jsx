@@ -1,6 +1,7 @@
 "use client"
 import { useState } from 'react';
 
+
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -10,7 +11,7 @@ const Navbar = () => {
     { href: '/', label: 'Product' },
     { href: '/', label: 'Features' },
     { href: '/', label: 'Pricing' },
-    { href: '/', label: 'About us' },
+    { href: '/about', label: 'About us' },
   ];
 
   return (
@@ -54,7 +55,7 @@ const Navbar = () => {
         <ul className="flex items-center space-x-8 lg:flex">
           <li>
             <a
-              href="/"
+              href="/login"
               className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-[#25BF76]"
             >
               Sign in
@@ -62,7 +63,7 @@ const Navbar = () => {
           </li>
           <li>
             <a
-              href="/"
+              href="/signup"
               className="inline-flex items-center justify-center h-12 px-6 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-[#25BF76] hover:bg-white hover:text-[#25BF76] focus:shadow-outline focus:outline-none"
             >
               Sign up
