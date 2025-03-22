@@ -2,7 +2,7 @@ import React from 'react';
 import { FaChartLine, FaHeartbeat, FaUsers } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import { Line } from 'react-chartjs-2';
-import 'chart.js/auto';
+import Chart from  'chart.js/auto';
 
 const FactSection = () => {
     const data = {
