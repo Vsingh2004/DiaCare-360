@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 
 const HeroSection = () => {
     return (
-        <div className="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-center px-4 md:px-12 lg:px-24 relative">
+        <div className="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-center  px-4 md:px-12 lg:px-24 relative">
             <div 
                 className="absolute inset-0 bg-cover bg-center opacity-20 z-0 mt-10"
                 style={{ backgroundImage: "url('https://cdn-prod.medicalnewstoday.com/content/images/articles/317/317426/senior-woman-seeing-a-doctor.jpg')" }}
