@@ -21,7 +21,7 @@ const HeroSection = () => {
             <p className="text-lg md:text-xl text-center text-gray-600 mb-6 z-10">
                 Personalized Meal Plans | Trusted Diabetic Products | Expert Health Insights
             </p>
-
+            
             <div className="w-full max-w-md mb-6 z-10">
                 <input 
                     type="text" 
