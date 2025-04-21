@@ -22,7 +22,7 @@ export default function RootLayout({ children }) {
   const pathname = usePathname();
 
   // Pages where Navbar and Footer should be hidden
-  const hideLayoutPages = ["/login", "/signup"];
+  const hideLayoutPages = ["/login", "/signup","/dashboard"];
 
   return (
     <html lang="en">

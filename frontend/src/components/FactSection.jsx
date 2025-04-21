@@ -111,7 +111,7 @@ const FactSection = () => {
                 <div className="mt-12 w-full">
                     <h3 className=" text-2xl font-bold text-[#25BF76] mb-8">Why Diabetes Management Matters</h3>
                     <div className=" bg-gray-300  shadow-2xl w-full h-[400px] flex items-center justify-center rounded-lg">
-                        <video src="./video1.mp4" autoPlay loop muted playsInline className="w-full h-full object-cover"/>
+                        <video src="./media/video1.mp4" autoPlay loop muted playsInline className="w-full h-full object-cover"/>
                     </div>
                 </div>
             </div>
