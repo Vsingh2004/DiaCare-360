@@ -3,11 +3,14 @@ import React from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
+import { useRouter } from "next/navigation";
 import toast from 'react-hot-toast';
 import { FaEnvelope, FaLock } from 'react-icons/fa';
 import SignupNavbar from '@/app/Signup-navbar';
 
 const Login = () => {
+  const router = useRouter();
+
   const validationSchema = Yup.object({
     email: Yup.string().email('Invalid email address').required('Email is required'),
     password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
@@ -18,32 +21,34 @@ const Login = () => {
       email: '',
       password: '',
     },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      axios
-        .post(`${process.env.NEXT_PUBLIC_API_URL}/user/authenticate`, values)
-        .then((res) => {
-          console.log(res.data);
-          localStorage.setItem('user', res.data.token);
-          toast.success('Login successfully');
-        })
-        .catch((err) => {
-          console.log(err);
-          toast.error('Login failed');
-        });
+    validationSchema,
+    onSubmit: async (values) => {
+      try {
+        const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/users/authenticate`, values);
+        localStorage.setItem('user', res.data.token);
+        toast.success('Login successful');
+        router.push("/");
+        // Optional: redirect or refresh
+      } catch (err) {
+        console.error(err);
+        toast.error('Login failed');
+      }
     },
   });
 
   return (
     <div>
       <SignupNavbar />
-      <div className="flex items-center justify-center h-screen bg-gradient-to-r from-[#a1ffce] to-[#faffd1]">
-        <div className="w-full max-w-md p-8 space-y-8 bg-white shadow-2xl rounded-2xl border border-gray-200">
-          <h2 className="text-3xl font-bold text-center text-gray-800">Welcome Back!</h2>
-          <p className="text-center text-gray-500">Sign in to continue</p>
+      <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-[#a1ffce] to-[#faffd1] px-4">
+        <div className="w-full max-w-md p-8 space-y-6 bg-white shadow-xl rounded-2xl border border-gray-200 transition-transform duration-300 hover:scale-[1.02]">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold text-gray-800">Welcome Back!</h2>
+            <p className="text-gray-500 mt-1">Sign in to continue</p>
+          </div>
 
-          <form onSubmit={formik.handleSubmit}>
-            <div className="relative mb-4">
+          <form onSubmit={formik.handleSubmit} className="space-y-5">
+            {/* Email Input */}
+            <div className="relative">
               <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
               <input
                 type="email"
@@ -52,7 +57,7 @@ const Login = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.email}
-                className={`w-full pl-10 px-4 py-3 border rounded-md focus:outline-none focus:ring-2 ${
+                className={`w-full pl-10 pr-4 py-3 border rounded-md focus:outline-none focus:ring-2 ${
                   formik.touched.email && formik.errors.email
                     ? 'border-red-500 focus:ring-red-300 bg-red-50'
                     : 'focus:ring-[#25BF76]'
@@ -63,7 +68,8 @@ const Login = () => {
               )}
             </div>
 
-            <div className="relative mb-4">
+            {/* Password Input */}
+            <div className="relative">
               <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
               <input
                 type="password"
@@ -72,7 +78,7 @@ const Login = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 value={formik.values.password}
-                className={`w-full pl-10 px-4 py-3 border rounded-md focus:outline-none focus:ring-2 ${
+                className={`w-full pl-10 pr-4 py-3 border rounded-md focus:outline-none focus:ring-2 ${
                   formik.touched.password && formik.errors.password
                     ? 'border-red-500 focus:ring-red-300 bg-red-50'
                     : 'focus:ring-[#25BF76]'
@@ -83,26 +89,29 @@ const Login = () => {
               )}
             </div>
 
-            <div className="flex justify-between items-center mb-6">
-              <label className="flex items-center text-sm text-gray-600">
-                <input type="checkbox" className="mr-2" />
+            {/* Options */}
+            <div className="flex justify-between items-center text-sm text-gray-600">
+              <label className="flex items-center gap-2">
+                <input type="checkbox" className="accent-[#25BF76]" />
                 Remember me
               </label>
-              <a href="/forgot-password" className="text-[#25BF76] text-sm hover:underline">
+              <a href="/forgot-password" className="text-[#25BF76] hover:underline">
                 Forgot Password?
               </a>
             </div>
 
+            {/* Submit */}
             <button
               type="submit"
-              className="w-full py-3 text-white bg-[#25BF76] rounded-md hover:bg-[#1e9e62] transition-all"
+              className="w-full py-3 bg-[#25BF76] text-white rounded-md font-semibold transition hover:bg-[#1e9e62] active:scale-95"
             >
               Sign In
             </button>
 
-            <p className="text-center text-gray-600 mt-4">
+            {/* Bottom Text */}
+            <p className="text-center text-gray-600">
               Don't have an account?{' '}
-              <a href="/signup" className="text-[#25BF76] font-bold hover:underline">
+              <a href="/signup" className="text-[#25BF76] font-semibold hover:underline">
                 Sign Up
               </a>
             </p>

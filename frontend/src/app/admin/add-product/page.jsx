@@ -9,10 +9,7 @@ import { FaProductHunt, FaInfoCircle, FaDollarSign, FaImage } from "react-icons/
 
 
 const AddProductSchema = Yup.object().shape({
-  name: Yup.string()
-    .min(2, "Too Short!")
-    .max(50, "Too Long!")
-    .required("Product name is required"),
+  name: Yup.string().min(2, "Too Short!").max(50, "Too Long!").required("Product name is required"),
   description: Yup.string().required("Description is required"),
   price: Yup.number().required("Price is required").positive("Price must be positive"),
   image: Yup.string().url("Invalid image URL").required("Image URL is required"),
@@ -37,7 +34,7 @@ const AddProduct = () => {
         );
         toast.success("Product added successfully");
         resetForm();
-        router.push("/product/getall");
+        router.push("admin/product/add");
       } catch (error) {
         
         toast.error("Failed to add product");

@@ -31,7 +31,7 @@ function SortableMeal({ meal }) {
       ref={setNodeRef}
       style={style}
       layout
-      className="flex items-center justify-between gap-2 p-3 bg-white rounded-xl shadow hover:shadow-md cursor-grab"
+      className="flex items-center justify-between gap-2 p-3 bg-white  shadow hover:shadow-md cursor-grab"
       {...attributes}
       {...listeners}
     >
@@ -63,7 +63,7 @@ export default function SmartMealPlanner() {
   };
 
   return (
-    <div className="p-6 bg-[#E9F7F1] rounded-3xl shadow-xl">
+    <div className="p-6 mt-3 bg-[#E9F7F1] shadow-xl">
       <div className="flex justify-between items-center mb-4">
         <h2 className="text-xl font-semibold text-[#1E2A3A]">Smart Meal Planner</h2>
         <button

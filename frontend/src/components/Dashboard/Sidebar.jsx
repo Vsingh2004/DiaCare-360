@@ -1,4 +1,3 @@
-// src/components/Sidebar.jsx
 'use client';
 import { useState } from "react";
 import { motion } from "framer-motion";
@@ -10,7 +9,7 @@ export default function Sidebar() {
   const [active, setActive] = useState("Dashboard");
 
   return (
-    <div className="relative h-screen bg-red-600">
+    <div className="relative h-screen">
       <motion.div
         animate={{ width: isOpen ? 240 : 72 }}
         className="bg-[#E9F7F1] text-[#1E2A3A] h-full shadow-xl flex flex-col justify-between transition-all duration-300 overflow-hidden"

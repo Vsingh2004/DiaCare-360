@@ -1,4 +1,10 @@
-
+// tailwind.config.js
+module.exports = {
+    plugins: [
+      require('tailwind-scrollbar'),
+    ],
+  }
+  
 // // tailwind.config.js
 // module.exports = {
 //     content: [

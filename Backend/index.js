@@ -1,35 +1,36 @@
-
 require('dotenv').config();
 const cors = require('cors');
-
-// import express
 const express = require('express');
+
+// Routers
 const userRouter = require('./routers/userRouter');
 const productRouter = require('./routers/ProductRouter');
+const orderRouter = require('./routers/OrderRouter');
+const articlesRouter = require('./routers/ArticlesRouter');
+const geminiRouter = require('./routers/GeminiRouter'); 
 
-// initialize express
 const app = express();
-
 const port = process.env.PORT || 5000;
 
-// middlewares
-app.use(cors({
-    origin: '*'
-}))
-app.use(express.json());                                                  // This is a built-in middleware that parses incoming requests with JSON payloads.
+// Middlewares
+app.use(cors({ origin: '*' }));
+app.use(express.json());
+
 app.use('/users', userRouter);
 app.use('/products', productRouter);
+app.use('/orders', orderRouter);
+app.use('/articles', articlesRouter);
+app.use('/gemini', geminiRouter); 
 
-// endpoint or route
+// Test routes
 app.get('/', (req, res) => {
-    res.send("response from express")
-})
+  res.send("response from express")
+});
 
-// /add
 app.get('/add', (req, res) => {
-    res.send('response from add');
-})
+  res.send('response from add');
+});
 
 app.listen(port, () => {
-    console.log('server started');
-});  
+  console.log('server started');
+});

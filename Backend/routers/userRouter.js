@@ -6,7 +6,14 @@ require('dotenv').config();
 const userRouter = express.Router();
 
 userRouter.post('/add', (req,res) => {
-    console.log(req.body);
+    const { role, specialization, qualification, experience } = req.body;
+
+    // If role is expert, make sure all fields are provided
+    if (role === 'expert') {
+      if (!specialization || !qualification || !experience) {
+        return res.status(400).json({ message: 'Please provide all expert fields' });
+      }
+    }
 
     new Model(req.body).save()
     .then((result) => {
@@ -86,8 +93,8 @@ userRouter.post('/authenticate', (req, res) => {
     .then((result) => {
         if(result){
 
-            const { _id, name, email} = result;
-            const payload = { _id, name, email};
+            const { _id, name, email, role} = result;
+            const payload = { _id, name, email,role};
             jwt.sign(
                 payload,
                 process.env.JWT_SECRET,

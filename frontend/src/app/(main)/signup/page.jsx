@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { FaUser, FaEnvelope, FaLock } from "react-icons/fa";
+import { FaUser, FaEnvelope, FaLock, FaBriefcase, FaGraduationCap, FaClock } from "react-icons/fa";
 import SignupNavbar from "@/app/Signup-navbar";
 
 const SignupSchema = Yup.object().shape({
@@ -24,6 +24,24 @@ const SignupSchema = Yup.object().shape({
   confirmPassword: Yup.string()
     .required("Confirm your password")
     .oneOf([Yup.ref("password"), null], "Passwords must match"),
+  role: Yup.string().oneOf(["patient", "expert"]).required("Role is required"),
+
+  // Expert-specific validations
+  specialization: Yup.string().when("role", {
+    is: "expert",
+    then: (schema) => schema.required("Specialization is required"),
+  }),
+  qualification: Yup.string().when("role", {
+    is: "expert",
+    then: (schema) => schema.required("Qualification is required"),
+  }),
+  experience: Yup.number().when("role", {
+    is: "expert",
+    then: (schema) =>
+      schema
+        .required("Experience is required")
+        .min(0, "Experience cannot be negative"),
+  }),
 });
 
 const Signup = () => {
@@ -35,6 +53,10 @@ const Signup = () => {
       email: "",
       password: "",
       confirmPassword: "",
+      role: "patient",
+      specialization: "",
+      qualification: "",
+      experience: "",
     },
     validationSchema: SignupSchema,
     onSubmit: async (values, { resetForm, setSubmitting }) => {
@@ -63,6 +85,20 @@ const Signup = () => {
           <p className="text-center text-gray-500">Join us to start your journey!</p>
 
           <form onSubmit={signupForm.handleSubmit}>
+            {/* Role Selector */}
+            <div className="mb-4">
+              <label className="block mb-1 text-gray-700 font-medium">Select Role</label>
+              <select
+                name="role"
+                value={signupForm.values.role}
+                onChange={signupForm.handleChange}
+                className="w-full px-4 py-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#25BF76]"
+              >
+                <option value="patient">Patient</option>
+                <option value="expert">Healthcare Expert</option>
+              </select>
+            </div>
+
             {/* Name Field */}
             <div className="relative mb-4">
               <FaUser className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -115,7 +151,7 @@ const Signup = () => {
             </div>
 
             {/* Confirm Password Field */}
-            <div className="relative mb-6">
+            <div className="relative mb-4">
               <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
               <input
                 type="password"
@@ -131,12 +167,68 @@ const Signup = () => {
               )}
             </div>
 
+            {/* Expert Fields (Only if role === 'expert') */}
+            {signupForm.values.role === "expert" && (
+              <>
+                {/* Specialization */}
+                <div className="relative mb-4">
+                  <FaBriefcase className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <input
+                    type="text"
+                    name="specialization"
+                    placeholder="Specialization (e.g. Diabetologist)"
+                    onChange={signupForm.handleChange}
+                    onBlur={signupForm.handleBlur}
+                    value={signupForm.values.specialization}
+                    className="w-full pl-10 px-4 py-3 border rounded-md"
+                  />
+                  {signupForm.touched.specialization && signupForm.errors.specialization && (
+                    <div className="text-red-500 text-sm mt-1">{signupForm.errors.specialization}</div>
+                  )}
+                </div>
+
+                {/* Qualification */}
+                <div className="relative mb-4">
+                  <FaGraduationCap className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <input
+                    type="text"
+                    name="qualification"
+                    placeholder="Qualification (e.g. MBBS)"
+                    onChange={signupForm.handleChange}
+                    onBlur={signupForm.handleBlur}
+                    value={signupForm.values.qualification}
+                    className="w-full pl-10 px-4 py-3 border rounded-md"
+                  />
+                  {signupForm.touched.qualification && signupForm.errors.qualification && (
+                    <div className="text-red-500 text-sm mt-1">{signupForm.errors.qualification}</div>
+                  )}
+                </div>
+
+                {/* Experience */}
+                <div className="relative mb-6">
+                  <FaClock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                  <input
+                    type="number"
+                    name="experience"
+                    placeholder="Years of Experience"
+                    onChange={signupForm.handleChange}
+                    onBlur={signupForm.handleBlur}
+                    value={signupForm.values.experience}
+                    className="w-full pl-10 px-4 py-3 border rounded-md"
+                  />
+                  {signupForm.touched.experience && signupForm.errors.experience && (
+                    <div className="text-red-500 text-sm mt-1">{signupForm.errors.experience}</div>
+                  )}
+                </div>
+              </>
+            )}
+
             <button
               type="submit"
               className="w-full py-3 text-white bg-[#25BF76] rounded-md hover:bg-[#1e9e62] transition-all"
               disabled={signupForm.isSubmitting}
             >
-              {signupForm.isSubmitting ? 'Signing Up...' : 'Sign Up'}
+              {signupForm.isSubmitting ? "Signing Up..." : "Sign Up"}
             </button>
 
             <p className="text-center text-gray-600 mt-4">
