@@ -5,9 +5,9 @@ const express = require('express');
 // Routers
 const userRouter = require('./routers/userRouter');
 const productRouter = require('./routers/ProductRouter');
-const orderRouter = require('./routers/OrderRouter');
 const articlesRouter = require('./routers/ArticlesRouter');
 const geminiRouter = require('./routers/GeminiRouter'); 
+const uploadRouter = require('./routers/uploadRouter')
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -18,9 +18,9 @@ app.use(express.json());
 
 app.use('/users', userRouter);
 app.use('/products', productRouter);
-app.use('/orders', orderRouter);
 app.use('/articles', articlesRouter);
 app.use('/gemini', geminiRouter); 
+app.use('/api', uploadRouter)
 
 // Test routes
 app.get('/', (req, res) => {

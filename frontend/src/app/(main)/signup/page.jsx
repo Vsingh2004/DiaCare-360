@@ -46,6 +46,8 @@ const SignupSchema = Yup.object().shape({
 
 const Signup = () => {
   const router = useRouter();
+  const [uniqueId, setUniqueId] = React.useState("");
+  const[showModal, setShowModal] = React.useState(false);
 
   const signupForm = useFormik({
     initialValues: {
@@ -65,9 +67,13 @@ const Signup = () => {
           `${process.env.NEXT_PUBLIC_API_URL}/users/add`,
           values
         );
+        if (res.data.uniqueId){
+          setUniqueId(res.data.uniqueId);
+          setShowModal(true);
+        }
+
         toast.success("User registered successfully");
         resetForm();
-        router.push("/login");
       } catch (error) {
         console.error(error);
         toast.error("User registration failed");
@@ -79,8 +85,9 @@ const Signup = () => {
   return (
     <div>
       <SignupNavbar />
-      <div className="flex items-center justify-center h-screen bg-gradient-to-r from-[#a1ffce] to-[#faffd1]">
-        <div className="w-full max-w-md p-8 space-y-8 bg-white shadow-2xl rounded-2xl border border-gray-200">
+      <div className="flex items-center justify-center  bg-gradient-to-r from-[#a1ffce] to-[#faffd1]">
+        
+        <div className="w-full max-w-xl p-8 space-y-8 m-10 bg-white shadow-2xl rounded-2xl border border-gray-200">
           <h2 className="text-3xl font-bold text-center text-gray-800">Create Account</h2>
           <p className="text-center text-gray-500">Join us to start your journey!</p>
 
@@ -230,6 +237,55 @@ const Signup = () => {
             >
               {signupForm.isSubmitting ? "Signing Up..." : "Sign Up"}
             </button>
+
+            {showModal && (
+  <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-30 backdrop-blur-sm z-50">
+    <div className="bg-white p-8 rounded-lg shadow-lg text-center relative w-[400px]">
+      
+      {/* Close Button */}
+      <button
+      onClick={() => { 
+        setShowModal(false);
+        router.push("/login");
+      }}
+        className="absolute top-2 right-2 text-gray-600 hover:text-gray-800 text-xl"
+      >
+        ✖
+      </button>
+
+      <h2 className="text-2xl font-bold mb-4">Unique ID Generated</h2>
+      <p className="mb-4">Save this Unique ID, use it to login as an expert:</p>
+
+      <div className="text-lg font-mono p-2 bg-gray-100 rounded-md mb-4">
+        {uniqueId}
+      </div>
+
+      <div className="flex justify-center gap-4">
+        <button
+          className="px-5 py-2 bg-[#25BF76] text-white rounded-md hover:bg-[#1e9e62]"
+          onClick={() => { 
+            setShowModal(false);
+            router.push("/login");
+          }}
+        >
+          Close
+        </button>
+
+        <button
+          className="px-5 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+          onClick={() => {
+            navigator.clipboard.writeText(uniqueId);
+            toast.success("Unique ID copied to clipboard!");
+          }}
+        >
+          Copy to Clipboard
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
+
 
             <p className="text-center text-gray-600 mt-4">
               Already have an account?{" "}

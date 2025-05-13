@@ -1,21 +1,25 @@
 'use client';
 const { useRouter } = require("next/navigation");
-const { createContext, useState, useContext } = require("react");
+const { createContext, useState, useContext, useEffect } = require("react");
 
 const AppContext = createContext();
 
 export const AppProvider = ({ children }) => {
   const router = useRouter();
 
-  const [currentUser, setCurrentUser] = useState(
-    JSON.parse(sessionStorage.getItem("user"))
-  );
+  const [currentUser, setCurrentUser] = useState(null);
+  const [loggedIn, setLoggedIn] = useState(false);
 
-  const [loggedIn, setLoggedIn] = useState(currentUser !== null);
+  useEffect(() => {
+    // Ensure localStorage is accessed only on the client side
+    const user = JSON.parse(localStorage.getItem("user"));
+    setCurrentUser(user);
+    setLoggedIn(user !== null);
+  }, []); // This will run once after the component mounts
 
   const logout = () => {
     setCurrentUser(null);
-    sessionStorage.removeItem("user");
+    localStorage.removeItem("user");
     setLoggedIn(false);
     router.push("/login");
   };
@@ -34,7 +38,6 @@ export const AppProvider = ({ children }) => {
     </AppContext.Provider>
   );
 };
-
 
 const useAppContext = () => useContext(AppContext);
 export default useAppContext;

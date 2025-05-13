@@ -1,65 +1,48 @@
 "use client";
 import React from "react";
 
-const sampleArticles = [
-  {
-    id: 1,
-    title: "Managing Diabetes Naturally",
-    date: "April 20, 2025",
-    imageUrl: "/images/articles/diabetes-naturally.jpg",
-  },
-  {
-    id: 2,
-    title: "Heart-Healthy Foods to Try Today",
-    date: "April 18, 2025",
-    imageUrl: "/images/articles/heart-health.jpg",
-  },
-  {
-    id: 3,
-    title: "Latest Study on Type-2 Diabetes",
-    date: "April 15, 2025",
-    imageUrl: "/images/articles/study-type2.jpg",
-  },
-  {
-    id: 4,
-    title: "Best Fitness Routines for Diabetics",
-    date: "April 10, 2025",
-    imageUrl: "/images/articles/fitness-diabetics.jpg",
-  },
-  {
-    id: 5,
-    title: "Best Fitness Routines for Diabetics",
-    date: "April 10, 2025",
-    imageUrl: "/images/articles/fitness-diabetics.jpg",
-  },
-  {
-    id: 6,
-    title: "Best Fitness Routines for Diabetics",
-    date: "April 10, 2025",
-    imageUrl: "/images/articles/fitness-diabetics.jpg",
-  }
-  // Add more articles here...
-];
+const TopArticles = ({ articles }) => {
+  console.log("Top Articles Data:", articles);
 
-const TopArticles = () => {
   return (
     <section className="p-6">
-      <h2 className="text-2xl font-bold mb-6">Top Articles</h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6">
-        {sampleArticles.map((article) => (
+      <h2 className="text-3xl font-bold mb-8 text-center">Top Articles</h2>
+
+      {/* Card Grid */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-8">
+        {articles.map((article) => (
           <div
-            key={article.id}
-            className="relative rounded-xl overflow-hidden shadow-md group h-84"
-            style={{
-              backgroundImage: `url(${article.imageUrl})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
+            key={article._id}
+            className="flex flex-col rounded-lg shadow-md overflow-hidden bg-white border border-gray-200"
           >
-            <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-50 transition-all duration-300" />
-            <div className="absolute bottom-0 p-4 text-white z-10">
-              <p className="text-sm text-gray-200">{article.date}</p>
-              <p className="font-semibold text-lg leading-snug">{article.title}</p>
+            {/* Image Display */}
+            {article.titleImage ? (
+              <img
+                src={article.titleImage}
+                alt={article.title}
+                className="w-full h-48 object-cover"
+              />
+            ) : (
+              <div className="w-full h-48 bg-gray-200 flex items-center justify-center">
+                <p className="text-gray-700">Image Not Available</p>
+              </div>
+            )}
+
+            {/* Content Section */}
+            <div className="p-4 flex flex-col justify-between">
+              <p className="text-sm text-gray-600">
+                {new Date(article.createdAt).toDateString()}
+              </p>
+              <h3 className="text-lg font-semibold mt-2">{article.title}</h3>
+              <p className="text-sm text-gray-700 mt-2 line-clamp-3">
+                {article.description ?? "No description available."}
+              </p>
+              <a
+                href={`/articles/${article._id}`}
+                className="mt-4 text-indigo-600 hover:text-indigo-800 text-sm"
+              >
+                Read More →
+              </a>
             </div>
           </div>
         ))}

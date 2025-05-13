@@ -1,48 +1,23 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 
 const articleData = {
   featured: {
     id: 1,
     title: "Breakthrough Discovery in Diabetes Cure",
     imageUrl: "/images/articles/featured-diabetes.jpg",
+    description:
+      "A new scientific breakthrough offers hope for a potential cure for diabetes, changing the lives of millions worldwide.",
   },
-  gridArticles: [
-    {
-      id: 2,
-      title: "10 Tips to Lower Blood Sugar Naturally",
-      imageUrl: "/images/articles/tip1.jpg",
-    },
-    {
-      id: 3,
-      title: "Mental Health in Diabetics",
-      imageUrl: "/images/articles/tip2.jpg",
-    },
-    {
-      id: 4,
-      title: "Herbal Solutions for Insulin Resistance",
-      imageUrl: "/images/articles/tip3.jpg",
-    },
-    {
-      id: 5,
-      title: "Workout Plan for Better Glucose Control",
-      imageUrl: "/images/articles/tip4.jpg",
-    },
-    {
-      id: 6,
-      title: "New Wearable Tech for Monitoring Sugar",
-      imageUrl: "/images/articles/tip5.jpg",
-    },
-    {
-      id: 7,
-      title: "Importance of Sleep in Diabetic Patients",
-      imageUrl: "/images/articles/tip6.jpg",
-    },
-  ],
 };
 
-const GridSection = () => {
-  const { featured, gridArticles } = articleData;
+const GridSection = ({ articles }) => {
+  const { featured } = articleData;
+  const [visibleArticles, setVisibleArticles] = useState(6);
+
+  const handleLoadMore = () => {
+    setVisibleArticles(visibleArticles + 6); // Load 6 more articles
+  };
 
   return (
     <section className="p-6">
@@ -57,35 +32,53 @@ const GridSection = () => {
           />
           <div className="absolute inset-0 bg-black bg-opacity-40 p-4 flex flex-col justify-end">
             <h3 className="text-white text-xl font-semibold">{featured.title}</h3>
+            <p className="text-white text-sm">{featured.description}</p>
+            <a
+              href="#"
+              className="text-white text-sm underline mt-2"
+            >
+              Read more
+            </a>
           </div>
         </div>
 
-        {/* 6 Grid Articles in Two Columns */}
-        <div className="space-y-4">
-          {gridArticles.slice(0, 3).map((article) => (
-            <div key={article.id} className="flex items-center gap-4">
-              <img
-                src={article.imageUrl}
-                alt={article.title}
-                className="w-20 h-20 object-cover rounded"
-              />
-              <p className="font-medium">{article.title}</p>
-            </div>
-          ))}
-        </div>
-        <div className="space-y-4">
-          {gridArticles.slice(3, 6).map((article) => (
-            <div key={article.id} className="flex items-center gap-4">
-              <img
-                src={article.imageUrl}
-                alt={article.title}
-                className="w-20 h-20 object-cover rounded"
-              />
-              <p className="font-medium">{article.title}</p>
+        {/* Grid Articles */}
+        <div className="space-y-4 lg:col-span-2">
+          {articles.slice(0, visibleArticles).map((article) => (
+            <div key={article._id} className="flex flex-col md:flex-row gap-4">
+              <div className="flex-shrink-0 w-full md:w-40 h-40">
+                <img
+                  src={article.titleImage}
+                  alt={article.title}
+                  className="w-full h-full object-cover rounded"
+                />
+              </div>
+              <div className="flex flex-col justify-between">
+                <p className="font-medium text-lg">{article.title}</p>
+                <p className="text-sm text-gray-600">{article.description}</p>
+                <a
+                  href="#"
+                  className="mt-2 text-blue-600 hover:underline"
+                >
+                  Read More
+                </a>
+              </div>
             </div>
           ))}
         </div>
       </div>
+
+      {/* Load More Button */}
+      {visibleArticles < articles.length && (
+        <div className="text-center mt-6">
+          <button
+            onClick={handleLoadMore}
+            className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+          >
+            Load More Articles
+          </button>
+        </div>
+      )}
     </section>
   );
 };

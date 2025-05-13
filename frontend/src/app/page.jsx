@@ -8,6 +8,7 @@ import SmartMealPlanner from '@/components/Home/SmartMealPlanner';
 import FactSection from '@/components/Home/FactSection';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import FeaturedProducts from '@/components/Home/ProductList';
 
 const Home = () => {
   return (
@@ -16,7 +17,7 @@ const Home = () => {
 <Navbar/>
 <Hero/>
 <Banner/>
-<ProductList/>
+<FeaturedProducts/>
 <SwiperText/>
 <SmartMealPlanner/>
 <FactSection/>

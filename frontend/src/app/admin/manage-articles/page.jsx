@@ -39,8 +39,8 @@ const ManageArticles = () => {
   };
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6">Manage Articles</h1>
+    <div className=" ml-65 mt-10 p-10">
+      <h1 className="text-3xl font-bold mb-6 text-center">Manage Articles</h1>
 
       {/* Dropdown for Sections */}
       <div className="mb-6 flex gap-4">

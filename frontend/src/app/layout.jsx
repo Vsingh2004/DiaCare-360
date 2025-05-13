@@ -4,8 +4,13 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "react-hot-toast";
 import { usePathname } from "next/navigation";
 import "./globals.css";
-import { CartProvider } from "@/context/CartContext"; // Correctly imported
+
 import PrelineScript from "@/components/PrelineScript";
+import { ThemeProvider } from "next-themes";
+
+// ✅ Import All Context Providers
+import { AppProvider } from "@/context/AppContext";
+import { CartProvider } from "@/context/CartContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,16 +26,19 @@ export default function RootLayout({ children }) {
   const pathname = usePathname();
 
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning> 
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <PrelineScript />
-        <Toaster />
-        
-        {/* Wrap your app with CartProvider */}
-        <CartProvider>
-          {children}
-        </CartProvider>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={true}>
+          <PrelineScript />
+          <Toaster />
 
+          {/* ✅ Context Wrapping in Hierarchical Order */}
+          <AppProvider> 
+            <CartProvider> 
+                {children}
+            </CartProvider>
+          </AppProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

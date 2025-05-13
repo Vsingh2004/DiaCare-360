@@ -3,28 +3,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 
-const EditorsChoice = () => {
-  const [articles, setArticles] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/articles/getall`);
-        setArticles(res.data);
-      } catch (error) {
-        console.error("Failed to fetch articles:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchArticles();
-  }, []);
-
-  if (loading) {
-    return <div className="px-6 py-10 text-center text-gray-500">Loading articles...</div>;
-  }
+const EditorsChoice = ({articles}) => {
+  
 
   return (
     <section className="px-6 py-10">

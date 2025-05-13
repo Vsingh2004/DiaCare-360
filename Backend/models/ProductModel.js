@@ -6,7 +6,7 @@ const mySchema = new Schema({
     price: {type: Number, required: true},
     image: {type: String, required: true},
     category: {type: String},
-    createdAt: {type: Date, defualt: Date.now},
+    createdAt: {type: Date, default: Date.now},
 });
 
 module.exports = model('products', mySchema);

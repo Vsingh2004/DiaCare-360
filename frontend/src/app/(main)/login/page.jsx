@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, {useState} from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -11,21 +11,25 @@ import SignupNavbar from '@/app/Signup-navbar';
 const Login = () => {
   const router = useRouter();
 
+  const [role, setRole] = useState('patient'); // Default role is 'patient'
+
   const validationSchema = Yup.object({
     email: Yup.string().email('Invalid email address').required('Email is required'),
     password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
+    uniqueId: role === 'expert' ? Yup.string().required('Unique ID is required for experts') : Yup.string().notRequired(),
   });
 
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
+      
     },
     validationSchema,
     onSubmit: async (values) => {
       try {
         const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/users/authenticate`, values);
-        localStorage.setItem('user', res.data.token);
+        localStorage.setItem('user', JSON.stringify(res.data));
         toast.success('Login successful');
         router.push("/");
         // Optional: redirect or refresh
@@ -46,7 +50,42 @@ const Login = () => {
             <p className="text-gray-500 mt-1">Sign in to continue</p>
           </div>
 
+          {/* Role Selection */}
+          <div className="flex justify-center space-x-4 mb-4">
+            <button
+              type="button"
+              className={`px-4 py-2 rounded-md ${role === 'patient' ? 'bg-[#25BF76] text-white' : 'bg-gray-200'}`}
+              onClick={() => setRole('patient')}
+            >
+              Patient
+            </button>
+            <button
+              type="button"
+              className={`px-4 py-2 rounded-md ${role === 'expert' ? 'bg-[#25BF76] text-white' : 'bg-gray-200'}`}
+              onClick={() => setRole('expert')}
+            >
+              Expert
+            </button>
+          </div>
+
           <form onSubmit={formik.handleSubmit} className="space-y-5">
+
+          {role === 'expert' && (
+              <div className="relative">
+                <input
+                  type="text"
+                  name="uniqueId"
+                  placeholder="Unique ID"
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  value={formik.values.uniqueId || ''}
+                  className={`w-full pl-4 pr-4 py-3 border rounded-md focus:outline-none focus:ring-2 ${formik.touched.uniqueId && formik.errors.uniqueId ? 'border-red-500 focus:ring-red-300 bg-red-50' : 'focus:ring-[#25BF76]'}`}
+                />
+                {formik.touched.uniqueId && formik.errors.uniqueId && (
+                  <p className="text-sm text-red-500 mt-1">{formik.errors.uniqueId}</p>
+                )}
+              </div>
+            )}
             {/* Email Input */}
             <div className="relative">
               <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />

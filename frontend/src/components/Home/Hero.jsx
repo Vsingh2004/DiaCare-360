@@ -1,59 +1,87 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { HeartPulse, Salad, Syringe } from 'lucide-react'; // medical icons
 
 const HeroSection = () => {
-    return (
-        <div className="bg-white text-gray-800 min-h-screen flex flex-col items-center justify-center  px-4 md:px-12 lg:px-24 relative">
-            <div 
-                className="absolute inset-0 bg-cover bg-center opacity-20 z-0 mt-10"
-                style={{ backgroundImage: "url('https://cdn-prod.medicalnewstoday.com/content/images/articles/317/317426/senior-woman-seeing-a-doctor.jpg')" }}
-            ></div>
+  return (
+    <div className="relative bg-gradient-to-tr from-[#E8F6FF] to-white overflow-hidden">
+      {/* Main Content */}
+      <div className="pt-18 pb-12 px-6 lg:px-20 flex flex-col-reverse lg:flex-row items-center justify-between gap-10">
+        
+        {/* LEFT CONTENT (Updated) */}
+        <motion.div
+          className="max-w-xl"
+          initial={{ opacity: 0, x: -40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7 }}
+        >
+          <h1 className="text-4xl md:text-5xl font-extrabold text-[#2A7BA5] leading-tight mb-4">
+            All-in-One Diabetes Care Platform
+          </h1>
 
-            <motion.h1 
-                className="text-4xl  md:text-5xl lg:text-6xl font-bold text-center text-[#25BF76] mb-4 z-10"
-                initial={{ opacity: 0, y: -50 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8 }}
-            >
-                Empowering Diabetics with Smart Diet Plans, Trusted Products & Expert Advice
-            </motion.h1>
+          <p className="text-lg text-gray-700 mb-6">
+            Track your health, plan meals, access expert tips, and shop diabetic essentials — all in one place.
+          </p>
 
-            <p className="text-lg md:text-xl text-center text-gray-600 mb-6 z-10">
-                Personalized Meal Plans | Trusted Diabetic Products | Expert Health Insights
-            </p>
-            
-            <div className="w-full max-w-md mb-6 z-10">
-                <input 
-                    type="text" 
-                    placeholder="Search for diabetic-friendly foods, equipment, or tips..."
-                    className="w-full p-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#25BF76] "
-                />
+          {/* Feature Highlights */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+            <div className="flex items-center gap-3">
+              <HeartPulse className="text-[#25BF76]" />
+              <span className="text-gray-600 text-sm">Real-time Sugar Monitoring</span>
             </div>
-
-            <div className="flex space-x-4 z-10">
-                <motion.button 
-                    className="bg-[#25BF76] text-white px-6 py-3 rounded-xl shadow-lg hover:bg-green-600 transition"
-                    whileHover={{ scale: 1.05 }}
-                >
-                    Get Started
-                </motion.button>
-                
-                <motion.button 
-                    className="bg-gray-200 text-[#25BF76] px-6 py-3 rounded-xl shadow-lg hover:bg-gray-300 transition"
-                    whileHover={{ scale: 1.05 }}
-                >
-                    Explore Marketplace
-                </motion.button>
-                
-                <motion.button 
-                    className="bg-gray-200 text-[#25BF76] px-6 py-3 rounded-xl shadow-lg hover:bg-gray-300 transition"
-                    whileHover={{ scale: 1.05 }}
-                >
-                    Learn More
-                </motion.button>
+            <div className="flex items-center gap-3">
+              <Salad className="text-[#25BF76]" />
+              <span className="text-gray-600 text-sm">Smart Meal Planning</span>
             </div>
+            <div className="flex items-center gap-3">
+              <Syringe className="text-[#25BF76]" />
+              <span className="text-gray-600 text-sm">Insulin Reminders</span>
+            </div>
+            <div className="flex items-center gap-3">
+              <img src="/icons/store.svg" alt="store" className="w-5 h-5" />
+              <span className="text-gray-600 text-sm">Diabetic Product Store</span>
+            </div>
+          </div>
+
+          {/* Call-to-Actions */}
+          <div className="flex flex-col sm:flex-row gap-4">
+            <button className="bg-[#25BF76] text-white px-6 py-3 rounded-full shadow-lg hover:bg-green-600 transition">
+              Get Started Free
+            </button>
+            <button className="bg-white border border-[#25BF76] text-[#25BF76] px-6 py-3 rounded-full shadow-md hover:bg-[#25BF76] hover:text-white transition">
+              Explore Features
+            </button>
+          </div>
+        </motion.div>
+
+        {/* RIGHT IMAGE SIDE (Unchanged) */}
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.7 }}
+        >
+          <img
+            src="/hero/doctor.webp"
+            alt="Doctor with patient"
+            className="max-w-xl"
+          />
+        </motion.div>
+      </div>
+
+      {/* Medical Icons Floating (Unchanged) */}
+      <div className="absolute bottom-6 left-18 flex gap-4 opacity-60">
+        <div className="bg-white p-3 rounded-xl shadow-md">
+          <HeartPulse className="text-[#25BF76]" />
         </div>
-    );
+        <div className="bg-white p-3 rounded-xl shadow-md">
+          <Salad className="text-[#25BF76]" />
+        </div>
+        <div className="bg-white p-3 rounded-xl shadow-md">
+          <Syringe className="text-[#25BF76]" />
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default HeroSection;
