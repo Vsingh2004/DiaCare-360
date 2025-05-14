@@ -1,7 +1,8 @@
+"use client"
 import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { StoreContext } from '../../context/StoreContext';
+import { StoreContext } from '@/context/StoreContext';
 
 const VerifyPayment = () => {
   const { token } = useContext(StoreContext);

@@ -1,112 +1,189 @@
-'use client';
-import { useParams, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
-import Navbar from "@/components/Navbar";
-import { FaFacebook, FaTwitter, FaPinterest } from 'react-icons/fa';
+"use client";
+import { useEffect, useState } from "react";
+import { FaShoppingCart, FaHeart, FaUserCircle } from "react-icons/fa";
+import { useRouter } from "next/navigation";
+import { useCart } from "@/context/CartContext";
 
-const ViewProduct = () => {
-  const { id } = useParams();
+const Navbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const router = useRouter();
+  const { cartItems } = useCart();
 
-  const [relatedProducts, setRelatedProducts] = useState([
-    { _id: 1, name: "Product A", price: 29.99, image: "https://via.placeholder.com/150" },
-    { _id: 2, name: "Product B", price: 39.99, image: "https://via.placeholder.com/150" },
-    { _id: 3, name: "Product C", price: 49.99, image: "https://via.placeholder.com/150" }
-  ]);
+  const cartCount = cartItems?.length || 0;
+
+  useEffect(() => {
+    const token = localStorage.getItem("user");
+    if (token) {
+      setUser({ token });
+    }
+  }, []);
+
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+  const toggleDropdown = () => setIsDropdownOpen(!isDropdownOpen);
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+    router.push("/");
+  };
+
+  const links = [
+    { href: "/products", label: "Product" },
+    { href: "/articles", label: "Blogs" },
+    { href: "/about", label: "About us" },
+    { href: "/contact", label: "Contact Us" },
+  ];
+
+  if (user) {
+    links.push({
+      href: "/patient/dashboard",
+      label: (
+        <span className="px-3 py-2 bg-[#25BF76] text-white rounded hover:bg-[#3d4e46] transition">
+          Dashboard
+        </span>
+      ),
+    });
+  }
 
   return (
-    <div className="p-6 mt-20">
-      <Navbar />
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-
-        {/* Image Gallery Placeholder */}
-        <div className="space-y-4">
-          <div className="w-full h-[400px] bg-gray-200 flex items-center justify-center rounded-lg">
-            Main Image Here
-          </div>
-          <div className="grid grid-cols-3 gap-4">
-            <div className="h-24 bg-gray-200 rounded-lg">Image 1</div>
-            <div className="h-24 bg-gray-200 rounded-lg">Image 2</div>
-            <div className="h-24 bg-gray-200 rounded-lg">Image 3</div>
-          </div>
-        </div>
-
-        {/* Product Details & Action Buttons */}
-        <div className="space-y-6">
-          <h1 className="text-3xl font-bold">Product Name</h1>
-          <p className="text-lg text-gray-600">Short description of the product goes here. Highlight main features and specifications.</p>
-          <p className="text-2xl font-semibold text-[#25BF76]">$49.99</p>
-          <div className="flex gap-4">
-            <button className="px-6 py-2 bg-[#25BF76] text-white rounded-lg">Add to Cart</button>
-            <button className="px-6 py-2 bg-black text-white rounded-lg">Buy Now</button>
-            <button className="px-6 py-2 bg-gray-600 text-white rounded-lg">Add to Wishlist</button>
-          </div>
-          <div className="mt-6">
-            <h2 className="text-xl font-semibold">Product Highlights</h2>
-            <ul className="list-disc pl-5">
-              <li>High-quality materials</li>
-              <li>Excellent durability and finish</li>
-              <li>Available in multiple sizes and colors</li>
-              <li>One-year warranty included</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      {/* Full Product Description */}
-      <div className="mt-10 bg-gray-100 p-6 rounded-lg">
-        <h2 className="text-xl font-semibold mb-4">Product Description</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum. Nulla metus metus, ullamcorper vel, tincidunt sed, euismod in, nibh.</p>
-      </div>
-
-      {/* Specifications */}
-      <div className="mt-10 bg-gray-100 p-6 rounded-lg">
-        <h2 className="text-xl font-semibold mb-4">Specifications</h2>
-        <ul className="list-disc pl-5">
-          <li>Dimension: 12x8x4 inches</li>
-          <li>Weight: 1.2kg</li>
-          <li>Material: High-grade plastic</li>
-          <li>Color Options: Black, White, Green</li>
-        </ul>
-      </div>
-
-      {/* Shipping & Return Policy */}
-      <div className="mt-10 bg-gray-100 p-6 rounded-lg">
-        <h2 className="text-xl font-semibold mb-4">Shipping & Return Policy</h2>
-        <p>Free shipping on orders over $50. Easy returns within 30 days of purchase. Contact support for any issues.</p>
-      </div>
-
-      {/* Social Sharing Options */}
-      <div className="mt-10 flex gap-4 items-center">
-        <h2 className="text-xl font-semibold">Share:</h2>
-        <FaFacebook className="text-[#25BF76] cursor-pointer hover:scale-105" size={24} />
-        <FaTwitter className="text-[#25BF76] cursor-pointer hover:scale-105" size={24} />
-        <FaPinterest className="text-[#25BF76] cursor-pointer hover:scale-105" size={24} />
-      </div>
-
-      {/* Related Products Section */}
-      <div className="mt-10">
-        <h2 className="text-xl font-semibold mb-4">Related Products</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {relatedProducts.map((related) => (
-            <div
-              key={related._id}
-              className="border p-4 rounded-lg cursor-pointer hover:shadow-lg transition"
+    <div className="fixed top-0 left-0 w-full bg-white shadow-md px-8 py-5 z-50">
+      <div className="flex items-center justify-between">
+        {/* Logo and nav links */}
+        <div className="flex items-center">
+          <a href="/" className="inline-flex items-center mr-15">
+            <svg
+              className="w-8 text-deep-purple-accent-400"
+              viewBox="0 0 24 24"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              strokeLinecap="round"
+              strokeMiterlimit={10}
+              stroke="currentColor"
+              fill="none"
             >
-              <img
-                src={related.image}
-                alt={related.name}
-                className="w-full h-40 object-cover mb-4 rounded"
-              />
-              <h3 className="text-lg font-semibold">{related.name}</h3>
-              <p className="text-[#25BF76] font-bold">${related.price}</p>
+              <rect x={3} y={1} width={7} height={12} />
+              <rect x={3} y={17} width={7} height={6} />
+              <rect x={14} y={1} width={7} height={6} />
+              <rect x={14} y={11} width={7} height={12} />
+            </svg>
+            <span className="ml-2 text-xl font-bold tracking-wide text-gray-800 uppercase">
+              DiaCare 360
+            </span>
+          </a>
+          <ul className="hidden lg:flex items-center space-x-8">
+            {links.map((link, idx) => (
+              <li key={idx}>
+                <a
+                  href={link.href}
+                  className={`font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-[#25BF76] ${
+                    typeof link.label !== "string" ? "" : ""}`}
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Right Side Icons & Auth */}
+        <div className="flex gap-5 items-center">
+          {user && (
+            <>
+              {/* Favourites */}
+              <a href="/favourites">
+                <FaHeart className="text-gray-600 hover:text-[#25BF76]" size={22} />
+              </a>
+
+              {/* Cart */}
+              <a href="/patient/cart" className="relative">
+                <FaShoppingCart className="text-gray-600 hover:text-[#25BF76]" size={22} />
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
+              </a>
+            </>
+          )}
+
+          {/* Auth / Profile */}
+          {user ? (
+            <div className="relative">
+              <button onClick={toggleDropdown} className="flex items-center focus:outline-none">
+                <FaUserCircle size={26} className="text-gray-700 hover:text-[#25BF76]" />
+              </button>
+              {isDropdownOpen && (
+                <div className="absolute right-0 mt-2 w-40 bg-white border rounded shadow-lg">
+                  <a href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    Profile
+                  </a>
+                  <a href="/patient/my-orders" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                    My Orders
+                  </a>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                  >
+                    Logout
+                  </button>
+                </div>
+              )}
             </div>
-          ))}
+          ) : (
+            <ul className="flex items-center space-x-4">
+              <li>
+                <a
+                  href="/login"
+                  className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-[#25BF76]"
+                >
+                  Sign in
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/signup"
+                  className="inline-flex items-center justify-center h-10 px-5 font-medium tracking-wide text-white transition duration-200 rounded shadow-md bg-[#25BF76] hover:bg-white hover:text-[#25BF76]"
+                >
+                  Sign up
+                </a>
+              </li>
+            </ul>
+          )}
+
+          {/* Mobile Menu Button */}
+          <div className="lg:hidden">
+            <button onClick={toggleMenu} className="p-2 transition duration-200 rounded focus:outline-none">
+              <svg className="w-5 text-gray-600" viewBox="0 0 24 24">
+                <path d="M23,13H1c-0.6,0-1-0.4-1-1s0.4-1,1-1h22c0.6,0,1,0.4,1,1S23.6,13,23,13z" />
+                <path d="M23,6H1C0.4,6,0,5.6,0,5s0.4-1,1-1h22c0.6,0,1,0.4,1,1S23.6,6,23,6z" />
+                <path d="M23,20H1c-0.6,0-1-0.4-1-1s0.4-1,1-1h22c0.6,0,1,0.4,1,1S23.6,20,23,20z" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="lg:hidden">
+          <ul className="flex flex-col items-center space-y-4 mt-4">
+            {links.map((link, idx) => (
+              <li key={idx}>
+                <a
+                  href={link.href}
+                  className="font-medium tracking-wide text-gray-700 transition-colors duration-200 hover:text-[#25BF76]"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
-};
+}
 
-export default ViewProduct;
+export default Navbar;

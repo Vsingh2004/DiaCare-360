@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import Hero from '@/components/Home/Hero';
+import HeroSection from '@/components/Home/Hero';
 import Banner from '@/components/Home/Banner';
 import SwiperText from '@/components/Home/SwiperText';
 import ProductList from '@/components/Home/ProductList';
@@ -14,12 +14,12 @@ const Home = () => {
   return (
   // hero start
   <div className=" mx-auto  mt-10 ">
-<Navbar/>
-<Hero/>
-<Banner/>
+    <Navbar/>
+    <HeroSection/>
+ <Banner/>
 <FeaturedProducts/>
 <SwiperText/>
-<SmartMealPlanner/>
+<SmartMealPlanner/> 
 <FactSection/>
 <Footer/>
   </div>
