@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { ArrowDown, Star } from "lucide-react";
 
 const ProductCard = ({ product }) => {
   const { addToCart } = useCart();
@@ -48,7 +49,7 @@ const ProductCard = ({ product }) => {
       {/* Image Section */}
       <div className="flex justify-center items-center rounded-2xl h-[180px] overflow-hidden">
         <img
-          src={product.image}
+          src={product?.images?.[0] || "/placeholder.png"}
           alt={product.name}
           className="object-contain max-h-[180px] w-full"
         />
@@ -56,13 +57,42 @@ const ProductCard = ({ product }) => {
 
       {/* Content Section */}
       <div className="flex flex-col gap-2 mt-4 flex-1">
-        <h3 className="text-lg font-semibold text-[#046c4e] leading-tight line-clamp-1">
-          {product.name}
-        </h3>
-        <p className="text-sm text-gray-600 line-clamp-2">
-          {product.description}
-        </p>
-      </div>
+  <h3 className="text-lg font-semibold text-[#046c4e] leading-tight line-clamp-1">
+    {product.name}
+  </h3>
+
+  <p className="text-sm text-gray-600 line-clamp-2">
+    {product.shortDescription}
+  </p>
+
+  <div className="flex items-center justify-between mt-4">
+
+  {/* Offer Section with Down Arrow */}
+  {product?.offers && (
+    <div className="flex items-center text-green-500 text-lg font-bold   mt-1">
+      <ArrowDown className="mr-1" size={16} />
+      {product.offers}
+    </div>
+  )}
+
+  {/* Rating Section with Stars */}
+  {product?.ratings && (
+    <div className="flex items-center mt-1">
+      {[...Array(Math.floor(product.ratings))].map((_, index) => (
+        <Star key={index} size={18} className="text-yellow-500" />
+      ))}
+      {product.ratings % 1 !== 0 && (
+        <Star size={18} className="text-yellow-500 opacity-50" />
+      )}
+      <span className="ml-2 text-sm text-gray-600">
+        ({product.ratings} / 5)
+      </span>
+    </div>
+  )}
+</div>
+
+</div>
+
 
       {/* Bottom Section */}
       <div className="flex items-center justify-between mt-4">

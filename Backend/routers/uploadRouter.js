@@ -4,12 +4,13 @@ const uploadRouter = express.Router();
 const upload = require('../services/cloudinaryService');
 
 // Universal image uploader
-uploadRouter.post('/upload/:folder', upload.single('image'), (req, res) => {
-  res.json({
-    imageUrl: req.file.path,
-    publicId: req.file.filename,
-    folder: req.params.folder,
-  });
+uploadRouter.post('/upload/:folder', upload.array('images'), (req, res) => {
+  const imageUrls = req.files.map((file) => ({
+    imageUrl: file.path,
+    publicId: file.filename,
+  }));
+  res.json({ imageUrls, folder: req.params.folder });
 });
+
 
 module.exports = uploadRouter;
