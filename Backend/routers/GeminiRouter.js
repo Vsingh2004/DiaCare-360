@@ -51,13 +51,25 @@ Light but fulfilling dinner for easy digestion.
 Only output the formatted plan. Do not include any extra text.
 `;
 
-
   try {
     const model = genAI.getGenerativeModel({ model: 'models/gemini-2.0-flash' });
     const result = await model.generateContent(prompt);
-    const mealPlan = result.response.text(); 
+    const rawPlan = result.response.text();
 
-    res.json({ mealPlan });
+    // ✅ **NEW: Structured Formatting Logic**
+    const formattedPlan = rawPlan
+      .trim()
+      .split("\n\n") // Split into sections by double newlines
+      .map((block) => {
+        const [title, description, ...items] = block.split("\n");
+        return {
+          title: title.trim(),
+          description: description.trim(),
+          items: items.map((item) => item.replace("- ", "").trim()),
+        };
+      });
+
+    res.json({ mealPlan: formattedPlan });
   } catch (error) {
     console.error('Gemini AI Error:', error.message);
     res.status(500).json({ error: 'Failed to generate meal plan' });

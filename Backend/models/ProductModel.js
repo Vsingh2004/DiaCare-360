@@ -22,6 +22,7 @@ const mySchema = new Schema({
   stock: { type: Number, default: 0 },                 // Track product stock
   isFeatured: { type: Boolean, default: false },       // For highlighting featured products
   relatedProducts: [{ type: Schema.Types.ObjectId, ref: 'products' }], // To relate other products
+  ecommerceLink: { type: String }, 
   createdAt: { type: Date, default: Date.now },
 });
 

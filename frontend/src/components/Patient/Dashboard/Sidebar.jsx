@@ -1,15 +1,45 @@
 'use client';
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { sidebarItems } from "@/constants/sidebarItems"
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Grid,
+  BookOpen,
+  List,
+  PieChart,
+  RefreshCw,
+  Settings,
+  User,
+  LogOut
+} from "lucide-react";
 
-export default function Sidebar() {
+export default function Sidebar({ setActive }) {
   const [isOpen, setIsOpen] = useState(true);
-  const [active, setActive] = useState("Dashboard");
+  const [active, setActiveLocal] = useState("Dashboard");
+
+  const handleNavigation = (label) => {
+    setActiveLocal(label);
+    setActive(label);
+  };
+
+  // Sidebar navigation items
+  const sidebarItems = [
+    { label: "Dashboard", icon: Grid },
+    { label: "Personalized Plans", icon: BookOpen },
+    { label: "Recipe Explorer", icon: List },
+    { label: "Food Tracker", icon: PieChart },
+    { label: "Calorie Counter", icon: PieChart },
+    { label: "Swap Meal", icon: RefreshCw },
+    { label: "Reports", icon: PieChart },
+    { label: "Settings", icon: Settings },
+    { label: "Profile", icon: User },
+    { label: "Logout", icon: LogOut },
+  ];
 
   return (
     <div className="relative h-screen mt-18">
+      {/* Sidebar */}
       <motion.div
         animate={{ width: isOpen ? 240 : 72 }}
         className="bg-[#E9F7F1] text-[#1E2A3A] h-full shadow-xl flex flex-col justify-between transition-all duration-300 overflow-hidden"
@@ -34,12 +64,11 @@ export default function Sidebar() {
                 <motion.div
                   key={label}
                   layout
-                  onClick={() => setActive(label)}
+                  onClick={() => handleNavigation(label)}
                   className={`flex items-center gap-3 p-3 cursor-pointer relative overflow-hidden ${
                     isActive ? "text-white" : "text-[#1E2A3A]"
                   }`}
                 >
-                  {/* Active Highlight Animation */}
                   {isActive && (
                     <motion.div
                       layoutId="active-pill"

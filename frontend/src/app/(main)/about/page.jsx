@@ -1,9 +1,11 @@
 import React from 'react';
 import Image from 'next/image';
+import Navbar from '@/components/Navbar';
 
 const About = () => {
   return (
     <div className="bg-gradient-to-br from-blue-50 to-teal-100 min-h-screen p-8 mt-10">
+      <Navbar/>
       <div className="max-w-7xl mx-auto py-12 px-6 space-y-12">
 
         {/* Header Section */}

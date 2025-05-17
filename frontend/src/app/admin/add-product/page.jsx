@@ -18,6 +18,7 @@ import {
   FaPercent,
   FaStar,
   FaListUl,
+  FaRupeeSign
 } from "react-icons/fa";
 
 /* ===============================
@@ -139,8 +140,8 @@ const AddProduct = () => {
         const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/products/add`, {
           ...values,
           images,
-          relatedProducts: selectedRelated,
-          highlights: values.highlights.split(",").map((item) => item.trim()),
+          relatedProducts: selectedRelated.length > 0 ? selectedRelated : [],
+          highlights: values.highlights.split(/\r?\n/).map((item) => item.trim()),
           tags: values.tags.split(",").map((tag) => tag.trim()),
         });
         toast.success("Product added successfully");
@@ -185,9 +186,9 @@ useEffect(() => {
 
         <form onSubmit={addProductForm.handleSubmit}>
           <InputField id="name" icon={<FaProductHunt />} placeholder="Product Name" formik={addProductForm} />
-          <InputField id="description" icon={<FaInfoCircle />} placeholder="Product Description" formik={addProductForm} type="textarea" />
+          <InputField id="description" icon={<FaInfoCircle />} placeholder="Product Description" formik={addProductForm} type="textarea" rows = '6' style= {{whitespace: "pre-wrap"}}/>
           <InputField id="shortDescription" icon={<FaClipboardList />} placeholder="Short Description" formik={addProductForm} type="textarea" />
-          <InputField id="price" icon={<FaDollarSign />} placeholder="Price" formik={addProductForm} />
+          <InputField id="price" icon={<FaRupeeSign />} placeholder="Price" formik={addProductForm} />
 
           {/* Category Dropdown */}
           <select
@@ -232,7 +233,7 @@ useEffect(() => {
           <InputField id="brand" icon={<FaBuilding />} placeholder="Brand Name" formik={addProductForm} />
           <InputField id="offers" icon={<FaPercent />} placeholder="Offers (e.g., 10% Off)" formik={addProductForm} />
           <InputField id="ratings" icon={<FaStar />} placeholder="Ratings (0 to 5)" formik={addProductForm} />
-          <InputField id="highlights" icon={<FaListUl />} placeholder="Highlights (comma separated)" formik={addProductForm} />
+          <InputField id="highlights" icon={<FaListUl />} placeholder="Highlights " formik={addProductForm} type="textarea" rows = "4" style={{whitespace: "pre-wrap"}} />
 
           
 

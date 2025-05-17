@@ -88,7 +88,7 @@ const ViewProduct = () => {
               product.images.map((image, index) => (
                 <SwiperSlide key={index}>
                   <img
-                    src={image}
+                    src={product.images?.[0] || "/placeholder.png"}
                     alt={`Product Image ${index + 1}`}
                     className="w-full h-full object-cover rounded-lg"
                   />
@@ -108,7 +108,7 @@ const ViewProduct = () => {
         <div className="space-y-4">
           <h1 className="text-3xl font-bold">{product?.name || "Product Name"}</h1>
           <p className="text-lg text-gray-600">{product?.shortDescription || "No description available."}</p>
-          <p className="text-2xl font-semibold text-green-600">${product?.price || "0.00"}</p>
+          <p className="text-2xl font-semibold text-green-600">₹{product?.price || "0.00"}</p>
 
           <div className="mt-4">
             <h2 className="text-xl font-semibold">Product Highlights</h2>
@@ -157,9 +157,12 @@ const ViewProduct = () => {
       </div>
 
       <div className="mt-10">
-        <h2 className="text-xl font-semibold mb-4">Product Description</h2>
-        <p>{product?.description || "No detailed description available."}</p>
-      </div>
+  <h2 className="text-xl font-semibold mb-4">Product Description</h2>
+  <p style={{ whiteSpace: "pre-wrap" }}>
+    {product?.description || "No detailed description available."}
+  </p>
+</div>
+
 
       <div className="mt-10">
         <h2 className="text-xl font-semibold">Shipping & Return Policy</h2>
@@ -178,7 +181,7 @@ const ViewProduct = () => {
             className="w-full h-40 object-cover rounded"
           />
           <h3 className="mt-2 font-semibold">{item.name}</h3>
-          <p className="text-green-600">${item.price}</p>
+          <p className="text-green-600">₹{item.price}</p>
           <Link 
           href={`/view/${item._id}`}
            className="mt-4 flex items-center justify-center gap-1 px-3 py-1.5 text-md bg-[#022418] text-[#fff] t rounded-md hover:bg-[#aee3d3] hover:text-[#022418] transition">View Product</Link>
