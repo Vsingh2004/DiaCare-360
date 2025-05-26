@@ -7,7 +7,10 @@ const userRouter = require('./routers/userRouter');
 const productRouter = require('./routers/ProductRouter');
 const articlesRouter = require('./routers/ArticlesRouter');
 const geminiRouter = require('./routers/GeminiRouter'); 
-const uploadRouter = require('./routers/uploadRouter')
+const uploadRouter = require('./routers/uploadRouter');
+const healthProfileRouter = require('./routers/HealthProfileRouter');
+
+
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -20,7 +23,9 @@ app.use('/users', userRouter);
 app.use('/products', productRouter);
 app.use('/articles', articlesRouter);
 app.use('/gemini', geminiRouter); 
-app.use('/api', uploadRouter)
+app.use('/gemini', uploadRouter);
+app.use('/healthprofile', healthProfileRouter);
+
 
 // Test routes
 app.get('/', (req, res) => {

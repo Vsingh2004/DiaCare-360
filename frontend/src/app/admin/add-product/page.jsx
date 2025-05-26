@@ -80,6 +80,7 @@ const AddProduct = () => {
   const [selectedRelated, setSelectedRelated] = useState([]);
   const [subcategories, setSubCategories] = useState([]);
   const [filteredRelatedProducts, setFilteredRelatedProducts] = useState([]);
+  const [amazonUrl, setAmazonUrl] = useState("");
 
   // Fetch all products for the "Related Products" list
   useEffect(() => {

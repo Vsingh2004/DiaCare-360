@@ -3,16 +3,16 @@
 import React, { useEffect, useState } from 'react';
 import Categories from '@/components/Articles/Categories';
 import EditorsChoice from '@/components/Articles/EditorsChoice';
-import GridSection from '@/components/Articles/GridSection';
-import InfiniteScroller from '@/components/Articles/InfiniteScroll';
+// import GridSection from '@/components/Articles/GridSection';
+// import InfiniteScroller from '@/components/Articles/InfiniteScroll';
 import LatestNewsSection from '@/components/Articles/LatestNews';
 import TopArticles from '@/components/Articles/TopArticles';
 
 const Page = () => {
   const [categories, setCategories] = useState([]);
   const [editorsChoice, setEditorsChoice] = useState([]);
-  const [gridSection, setGridSection] = useState([]);
-  const [infiniteScroller, setInfiniteScroller] = useState([]);
+  // const [gridSection, setGridSection] = useState([]);
+  // const [infiniteScroller, setInfiniteScroller] = useState([]);
   const [latestNews, setLatestNews] = useState([]);
   const [topArticles, setTopArticles] = useState([]);
 
@@ -26,8 +26,8 @@ const Page = () => {
 
     const fetchData = async () => {
       setEditorsChoice(await fetchArticlesBySection('EditorsChoice'));
-      setGridSection(await fetchArticlesBySection('GridSection'));
-      setInfiniteScroller(await fetchArticlesBySection('InfiniteScroller'));
+      // setGridSection(await fetchArticlesBySection('GridSection'));
+      // setInfiniteScroller(await fetchArticlesBySection('InfiniteScroller'));
       setTopArticles(await fetchArticlesBySection('TopArticles'));
     };
 
@@ -39,8 +39,8 @@ const Page = () => {
       <Categories />
       <EditorsChoice articles={editorsChoice} />
       <TopArticles articles={topArticles} />
-      <GridSection articles={gridSection} />
-      <InfiniteScroller articles={infiniteScroller} />
+      {/* <GridSection articles={gridSection} /> */}
+      {/* <InfiniteScroller articles={infiniteScrolle*r} /> */}
       <LatestNewsSection />
     </div>
   );

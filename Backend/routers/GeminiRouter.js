@@ -1,78 +1,68 @@
 const express = require('express');
 const router = express.Router();
 const { GoogleGenerativeAI } = require('@google/generative-ai');
-
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 router.post('/generate-meal-plan', async (req, res) => {
-  const { dietType, healthCondition, preferences } = req.body;
+  const {
+    age, weight, height, allergies, medications, medicalReports, preferences, bloodType,
+    chronicConditions, exerciseFrequency, smokingStatus, alcoholConsumption, sleepDuration,
+    stressLevels, hydration, heartRate, bloodPressure, cholesterolLevels, glucoseLevels,
+    familyHistory, physicalActivity, dietType, vitaminDeficiency, recentSurgeries
+  } = req.body;
 
-  // Build the prompt based on user input
   const prompt = `
-You are a certified dietician bot. Create a detailed daily meal plan based on the following inputs. 
-Use a structured format like this, with a short description and 2-3 food items per meal.
+You are a certified dietician bot. Create a 7-day detailed diabetic meal plan based on the following inputs and it should be based on indian cuisine:
+Age: ${age}, Weight: ${weight}, Height: ${height}, Allergies: ${allergies || 'None'}, Medications: ${medications || 'None'},
+Medical Reports: ${medicalReports || 'None'}, Preferences: ${preferences || 'No preferences'}, Blood Type: ${bloodType || 'Unknown'},
+Chronic Conditions: ${chronicConditions || 'None'}, Exercise Frequency: ${exerciseFrequency || 'Unknown'}, Smoking Status: ${smokingStatus || 'Unknown'},
+Alcohol Consumption: ${alcoholConsumption || 'Unknown'}, Sleep Duration: ${sleepDuration || 'Unknown'}, Stress Levels: ${stressLevels || 'Unknown'},
+Hydration: ${hydration || 'Unknown'}, Heart Rate: ${heartRate || 'Unknown'}, Blood Pressure: ${bloodPressure || 'Unknown'},
+Cholesterol Levels: ${cholesterolLevels || 'Unknown'}, Glucose Levels: ${glucoseLevels || 'Unknown'}, Family History: ${familyHistory || 'Unknown'},
+Physical Activity: ${physicalActivity || 'Unknown'}, Diet Type: ${dietType || 'Balanced Diet'}, Vitamin Deficiency: ${vitaminDeficiency || 'None'},
+Recent Surgeries: ${recentSurgeries || 'None'}
 
-Include:
+Generate a well-structured 7-day meal plan. Each day must include:
 - Breakfast
 - Mid-Morning Snack (optional)
 - Lunch
 - Afternoon Snack (optional)
 - Dinner
 
-For each meal:
-- Start with the meal name (e.g., Breakfast)
-- Include a short 1-line description of the meal
-- Then list 2-3 items using bullet points (start each item with "- ")
-
-Input:
-Diet Type: ${dietType}
-Health Condition: ${healthCondition}
-Preferences: ${preferences}
-
-Output format (strictly use this):
-
-Breakfast
-A healthy start to the day rich in fiber and protein.
-- Oatmeal with chopped almonds and blueberries
-- Boiled egg
-- Herbal tea
-
-Lunch
-Balanced meal with whole grains, protein, and vegetables.
-- Grilled tofu wrap with hummus
-- Brown rice with dal
-- Cucumber and tomato salad
-
-Dinner
-Light but fulfilling dinner for easy digestion.
-- Vegetable soup
-- Mixed quinoa bowl with sauteed greens
-
-Only output the formatted plan. Do not include any extra text.
-`;
+Format it strictly in JSON array format, like:
+[
+  {
+    "title": "Day 1",
+    "description": "Start your week with nutrient-rich meals",
+    "items": [
+      "Breakfast: Oatmeal with almond butter and berries",
+      "Mid-Morning Snack: Handful of walnuts",
+      "Lunch: Grilled tofu salad with olive oil",
+      "Afternoon Snack: Coconut yogurt",
+      "Dinner: Stir-fried vegetables with tempeh"
+    ]
+  },
+  ...
+]
+Only output this JSON structure. Do not include any explanation or extra text.
+  `;
 
   try {
     const model = genAI.getGenerativeModel({ model: 'models/gemini-2.0-flash' });
     const result = await model.generateContent(prompt);
-    const rawPlan = result.response.text();
+    const responseText = await result.response.text();
 
-    // ✅ **NEW: Structured Formatting Logic**
-    const formattedPlan = rawPlan
-      .trim()
-      .split("\n\n") // Split into sections by double newlines
-      .map((block) => {
-        const [title, description, ...items] = block.split("\n");
-        return {
-          title: title.trim(),
-          description: description.trim(),
-          items: items.map((item) => item.replace("- ", "").trim()),
-        };
-      });
+    // Try to parse JSON from Gemini output
+    const startIndex = responseText.indexOf('[');
+    const endIndex = responseText.lastIndexOf(']');
+    const jsonString = responseText.slice(startIndex, endIndex + 1);
 
-    res.json({ mealPlan: formattedPlan });
-  } catch (error) {
-    console.error('Gemini AI Error:', error.message);
-    res.status(500).json({ error: 'Failed to generate meal plan' });
+    const parsedMealPlan = JSON.parse(jsonString);
+    res.status(200).json({ mealPlan: parsedMealPlan });
+
+  } catch (err) {
+    console.error('Error generating meal plan:', err.message);
+    res.status(500).json({ error: 'Failed to generate meal plan.' });
   }
 });
 

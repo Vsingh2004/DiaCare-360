@@ -1,10 +1,12 @@
 "use client";
 import React, { useState } from "react";
-import Sidebar from "@/components/Patient/Dashboard/Sidebar";
-import Topbar from "@/components/Patient/Dashboard/Topbar";
-import SmartMealPlanner from "@/components/Patient/Dashboard/SmartMealPlanner";
-import StandardMeals from "@/components/Patient/Dashboard/StandardMeals";
-import PersonalizedPlans from "@/components/Patient/Dashboard/PersonalizedPlans";
+import Sidebar from "@/components/Patient/Sidebar";
+import Topbar from "@/components/Patient/Topbar";
+import PatientDashboard from "@/components/Patient/Dashboard";
+import HealthEntry from "@/components/Patient/HealthEntry";
+import GeneralPlan from "@/components/Patient/GeneralPlan";
+import CustomizePlan from "@/components/Patient/CustomizePlan" 
+
 
 const Page = () => {
   const [active, setActive] = useState("Dashboard");
@@ -12,19 +14,13 @@ const Page = () => {
   const renderContent = () => {
     switch (active) {
       case "Dashboard":
-        return <div>🏡 Dashboard Component Here</div>;
-      case "Personalized Plans":
-        return <PersonalizedPlans />;
-      case "Recipe Explorer":
-        return <div>🔍 Recipe Explorer Component Here</div>;
-      case "Food Tracker":
-        return <SmartMealPlanner />;
-      case "Calorie Counter":
-        return <div>⚖️ Calorie Counter Component Here</div>;
-      case "Swap Meal":
-        return <StandardMeals />;
-      case "Reports":
-        return <div>📈 Reports Component Here</div>;
+        return <PatientDashboard/>;
+      case "Health Data Entry":
+        return <HealthEntry />;
+        case "Generate Meal Plan":
+          return <GeneralPlan />;
+          case "Customize Your Plan":
+            return <CustomizePlan />;
       case "Settings":
         return <div>⚙️ Settings Component Here</div>;
       case "Profile":

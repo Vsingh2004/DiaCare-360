@@ -23,28 +23,24 @@ export default function Sidebar({ setActive }) {
     setActive(label);
   };
 
-  // Sidebar navigation items
   const sidebarItems = [
     { label: "Dashboard", icon: Grid },
-    { label: "Personalized Plans", icon: BookOpen },
-    { label: "Recipe Explorer", icon: List },
-    { label: "Food Tracker", icon: PieChart },
-    { label: "Calorie Counter", icon: PieChart },
-    { label: "Swap Meal", icon: RefreshCw },
-    { label: "Reports", icon: PieChart },
-    { label: "Settings", icon: Settings },
+    { label: "Health Data Entry", icon: List },
+    { label: "Generate Meal Plan", icon: PieChart },
+    { label: "Customize Your Plan", icon: RefreshCw },
+    { label: "Finalize & Download", icon: BookOpen },
+    { label: "Wearable Devices (Coming Soon)", icon: RefreshCw },
     { label: "Profile", icon: User },
+    { label: "Settings", icon: Settings },
     { label: "Logout", icon: LogOut },
   ];
 
   return (
     <div className="relative h-screen mt-18">
-      {/* Sidebar */}
       <motion.div
         animate={{ width: isOpen ? 240 : 72 }}
         className="bg-[#E9F7F1] text-[#1E2A3A] h-full shadow-xl flex flex-col justify-between transition-all duration-300 overflow-hidden"
       >
-        {/* Top Logo and Toggle */}
         <div>
           <div className="flex items-center justify-between p-4">
             <h1 className={`text-xl font-bold ${!isOpen && "hidden"}`}>DiaCare</h1>
@@ -56,7 +52,6 @@ export default function Sidebar({ setActive }) {
             </button>
           </div>
 
-          {/* Navigation Items */}
           <nav className="flex flex-col gap-1">
             {sidebarItems.map(({ label, icon: Icon }) => {
               const isActive = active === label;
@@ -86,7 +81,6 @@ export default function Sidebar({ setActive }) {
           </nav>
         </div>
 
-        {/* Bottom User Profile */}
         <div className="p-4 border-t border-[#CDF5E4]">
           {isOpen ? (
             <div className="flex items-center gap-3">

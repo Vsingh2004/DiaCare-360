@@ -11,6 +11,7 @@ import { ThemeProvider } from "next-themes";
 // ✅ Import All Context Providers
 import { AppProvider } from "@/context/AppContext";
 import { CartProvider } from "@/context/CartContext";
+import { AuthProvider } from "@/context/AuthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,11 +34,13 @@ export default function RootLayout({ children }) {
           <Toaster />
 
           {/* ✅ Context Wrapping in Hierarchical Order */}
+          <AuthProvider> 
           <AppProvider> 
             <CartProvider> 
                 {children}
             </CartProvider>
           </AppProvider>
+          </AuthProvider>
         </ThemeProvider>
       </body>
     </html>

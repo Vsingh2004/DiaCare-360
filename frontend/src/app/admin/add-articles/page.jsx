@@ -53,7 +53,7 @@ const AddArticle = () => {
         toast.success("Article added successfully");
         resetForm();
         setSelectedSections([]); // Reset selected sections
-        router.push("/admin/add-articles"); 
+        router.push("/admin/manage-articles"); 
       } catch (error) {
         toast.error("Failed to add article");
         setSubmitting(false);

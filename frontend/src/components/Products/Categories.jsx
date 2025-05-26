@@ -4,7 +4,7 @@ import { menu_list } from "../../../public/assets/assets"; // Importing the cate
 
 const Categories = ({ setCategory, selectedCategory }) => {
   return (
-    <div className="py-12">
+    <div className="py-12 mt-16">
       <div className=" px-5">
         <h1 className="text-3xl font-semibold text-center text-green-600 mb-6">
           Doctor Recommended Products

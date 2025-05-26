@@ -4,6 +4,7 @@ const articleSchema = new Schema({
   title: { type: String, required: true },
   titleImage: { type: String, required: true },
   content: { type: String, required: true },
+  shortDescription: { type: String, required: true }, // ✅ Add this line
   author: { type: String, required: true },
   category: [String],
   displayIn: [{ 

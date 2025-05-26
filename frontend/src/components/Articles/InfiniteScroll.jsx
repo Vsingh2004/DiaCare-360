@@ -18,7 +18,7 @@ const ArticleCard = ({ title, imageUrl, date }) => (
   </div>
 );
 
-const InfiniteScroller = () => {
+const InfiniteScroller = ({articles}) => {
   const [articles, setArticles] = useState(mockArticles.slice(0, 12));
   const scrollerRef = useRef(null);
   const [leftPos, setLeftPos] = useState(0);

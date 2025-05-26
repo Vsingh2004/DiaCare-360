@@ -11,26 +11,7 @@ const mySchema = new Schema({
   uniqueId: { type: String },
   createdAt: { type: Date, default: Date.now },
 
-  // New fields for Patient's Profile
-  personalInfo: {
-    age: Number,
-    gender: String,
-    dob: Date,
-  },
-  contactDetails: {
-    phone: String,
-    emergencyContact: String,
-  },
-  healthDetails: {
-    diabetesType: String,
-    allergies: String,
-    medications: String,
-    doctorContact: String,
-    height: Number,
-    weight: Number,
-    cholesterol: Number,
-    bloodPressure: String,
-  },
+  
 
   // 🔹 New Favorites Section:
   favorites: {
